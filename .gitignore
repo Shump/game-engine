@@ -1,0 +1,18 @@
+# First, ignore everything
+*
+# Now, whitelist anything that's a directory
+!*/
+
+build/
+
+
+!*.hpp
+!*.cpp
+!*.dae
+!*.frag
+!*.vert
+!.gitignore
+!notes
+!Makefile
+!Makefile.tmp
+!CMakeLists.txt

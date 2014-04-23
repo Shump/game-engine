@@ -1,0 +1,22 @@
+
+CXX = clang++
+CFLAGS = -Wall -std=c++11 -stdlib=libc++ -Wno-extra-tokens
+
+LIBS = 	-lglfw \
+				-lboost_filesystem \
+				-lboost_system \
+				-lassimp \
+				-framework Cocoa \
+				-framework OpenGL
+
+all:
+	$(CXX) $(CFLAGS) $(LIBS) GraphicsEngine.cpp Scene.cpp Shader.cpp ShaderProgram.cpp Model.cpp AssImporter.cpp main.cpp
+
+#all:
+	#$(CXX) $(CFLAGS) -c Scene.cpp
+
+gcc:
+	g++ -Wall -lglfw -framework Cocoa -framework OpenGL main.cpp
+
+AssImporter.o: AssImporter.cpp
+	$(CXX) -c $(CFLAGS) AssImporter.cpp
