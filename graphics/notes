@@ -1,6 +1,16 @@
 
-continue implement transformation:
-  - Continue with projections
+implement basic shading etc:
+  - draw background
+  - directional light
+  - ambient light
+  - point light
 
-move stuff out of main
+
+improve scene loader
+  - normals
+  - camera loading
+  - textures
+  - point lights
+
+
 

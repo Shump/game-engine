@@ -10,8 +10,8 @@ Camera::Camera() :
 
 }
 
-Camera::Camera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up) {
+Camera::Camera(const glm::vec3& pos, const glm::vec3& dir, const glm::vec3& up) {
   Camera::pos = pos;
-  Camera::target = target;
-  Camera::up = up;
+  Camera::dir = glm::normalize(dir);
+  Camera::up = glm::normalize(up);
 }

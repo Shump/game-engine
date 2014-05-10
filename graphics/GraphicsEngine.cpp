@@ -26,6 +26,7 @@ void GraphicsEngine::init() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 }
 
 void GraphicsEngine::start(unsigned int width, unsigned int height, std::string title) {
@@ -39,8 +40,9 @@ void GraphicsEngine::start(unsigned int width, unsigned int height, std::string 
 
   glfwMakeContextCurrent(window);
   //glfwDisable(GLFW_MOUSE_CURSOR);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-  proj_matrix = glm::perspective(45.0f, float(width / height), 1.0f, 10.0f);
+  proj_matrix = glm::perspective(45.0f, float(width / height), 0.1f, 100.0f);
 }
 
 void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
