@@ -43,18 +43,27 @@ void GraphicsEngine::start(unsigned int width, unsigned int height, std::string 
   proj_matrix = glm::perspective(45.0f, float(width / height), 1.0f, 10.0f);
 }
 
-void GraphicsEngine::drawModel(const Model& model) {
+void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
 
-  glBindVertexArray(model.getVertexArrayObject());
-  glBindBuffer(GL_ARRAY_BUFFER, model.getVertexBufferObject());
+    glBindVertexArray(model.getVertexArrayObject());
+    glBindBuffer(GL_ARRAY_BUFFER, model.getVertexBufferObject());
 
-  glDrawArrays(GL_TRIANGLES, 0, model.getNumberVertices());
+    program->setUniform("model_mat", model.getModelMatrix());
+    program->setUniform("view_mat", view_mat);
+    program->setUniform("proj_mat", proj_matrix);
+    program->setUniform("triangleColor", glm::vec3(0.0, 1.0, 0.0));
+    glDrawArrays(GL_TRIANGLES, 0, model.getNumberVertices());
 
 }
 
 void GraphicsEngine::drawScene(const Scene& scene) {
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  const glm::mat4 view_mat = scene.getConstCamera().getViewMatrix();
+
   for(Model* model : scene.models) {
-    drawModel(*model);
+    drawModel(view_mat, *model);
   }
 }
 

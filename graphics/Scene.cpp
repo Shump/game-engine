@@ -16,7 +16,7 @@ Scene::Scene() {
 
 }
 
-Scene::Scene(std::vector<Model*> new_models) {
+Scene::Scene(std::vector<Model*> new_models) { // TODO: fix nice copying and stuff
 
   for(auto& model_ptr : new_models) {
     models.push_back(model_ptr);

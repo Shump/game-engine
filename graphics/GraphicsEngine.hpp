@@ -21,7 +21,7 @@ public:
 
   void init();
   void start(unsigned int width, unsigned int height, std::string title);
-  void drawModel(const Model& model);
+  void drawModel(const glm::mat4& view_mat, const Model& model);
   void drawScene(const Scene& scene);
   void render();
   void stop();
@@ -36,8 +36,8 @@ public:
     return proj_matrix;
   }
 
-private:
   GLFWwindow* window;
+private:
 
   std::shared_ptr<ShaderProgram> program;
 

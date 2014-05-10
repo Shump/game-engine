@@ -25,43 +25,48 @@ int main() {
   Shader fragment_shader("data/shader.frag");
   
   std::shared_ptr<ShaderProgram> shader_program(new ShaderProgram{vertex_shader, fragment_shader});
-  //ge.setShaderProgram(shader_program);
+  ge.setShaderProgram(shader_program);
   glUseProgram(shader_program->shader_program);
   shader_program->setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
 
-  //Dark::Importer importer;  
-  Face* face = new Face(glm::vec3(0.0, 0.5, 0.0),
-                        glm::vec3(0.5, -0.5, 0.0),
-                        glm::vec3(-0.5, -0.5, 0.0));
-  Model* model = new Model();
-  model->addFace(face);
-  model->rotate(180.0f, glm::vec3(0.0, 0.0, 1.0));
-  model->setupGPU();
-  //Scene* scene = importer.loadScene<AssImporter>("data/cube.dae");
-  Scene* scene = new Scene();
-  scene->addModel(model);
+  Dark::Importer importer;  
+  Scene* scene = importer.loadScene<AssImporter>("data/cube.dae");
 
   Camera cam(glm::vec3(0.0f, 0.0f, -5.0f),
              glm::vec3(0.0f, 0.0f, 0.0f),
              glm::vec3(0.0f, 1.0f, 0.0f));
+  scene->setCamera(cam);
+
+  double time = glfwGetTime();
 
   while(!ge.shouldClose()) {
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    double new_time = glfwGetTime();
+    float delta_time = new_time - time;
+    float MOVE_SPEED = 2.0f;
 
-    glBindVertexArray(model->getVertexArrayObject());
-    glBindBuffer(GL_ARRAY_BUFFER, model->getVertexBufferObject());
+    Camera& camref = scene->getCamera();
+    if (glfwGetKey(ge.window, GLFW_KEY_W) == GLFW_PRESS){
+      camref.move(camref.getViewDir() * MOVE_SPEED * delta_time);
+    }
+    if (glfwGetKey(ge.window, GLFW_KEY_S) == GLFW_PRESS){
+      camref.move(camref.getViewDir() * -MOVE_SPEED * delta_time);
+    }
+    if (glfwGetKey(ge.window, GLFW_KEY_A) == GLFW_PRESS){
+      camref.move(camref.getLeftDir() * MOVE_SPEED * delta_time);
+    }
+    if (glfwGetKey(ge.window, GLFW_KEY_D) == GLFW_PRESS){
+      camref.move(camref.getRightDir() * MOVE_SPEED * delta_time);
+    }
 
-    shader_program->setUniform("model_mat", model->getModelMatrix());
-    shader_program->setUniform("view_mat", cam.getViewMatrix());
-    shader_program->setUniform("proj_mat", ge.getProjMatrix());
-    shader_program->setUniform("triangleColor", glm::vec3(0.0, 1.0, 0.0));
-    glDrawArrays(GL_TRIANGLES, 0, model->getNumberVertices());
 
-    //ge.drawScene(*scene);
+
+
+    ge.drawScene(*scene);
     ge.render();
 
     ge.pollEvents();
+
+    time = new_time;
   }
 }

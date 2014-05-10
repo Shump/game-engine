@@ -3,6 +3,7 @@
 
 #include "Model.hpp"
 #include "Face.hpp"
+#include "Camera.hpp"
 
 #include <memory>
 #include <string>
@@ -12,8 +13,6 @@
 
 class Scene {
 public:
-  std::vector<Model*> models;
-
   Scene();
   Scene(std::vector<Model*> models);
 
@@ -21,19 +20,22 @@ public:
 
   std::string toString() const;
 
-  //static Scene* loadScene(const std::string& path);
+  std::vector<Model*> models;
 
+  void setCamera(Camera cam) {
+    camera = cam;
+  }
+
+  Camera& getCamera() {
+    return camera;
+  }
+
+  const Camera& getConstCamera() const {
+    return camera;
+  }
 
 private:
-  //std::unique_ptr<std::vector<float>> vertices = 
-    //std::unique_ptr<std::vector<float>>(new std::vector<float>());
-  //static void walkthroughScene();
-  //static void initLoadScene(const std::string& path);
-  //static Face* buildFace(int faceIndex);
-
-  //static Scene* result_scene;
-  //static const aiScene* ai_scene;
-  //static aiMesh* mesh;
+  Camera camera;
 
 };
 
@@ -43,4 +45,4 @@ private:
 
 
 
-#endif SCENE_HPP
+#endif
