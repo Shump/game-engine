@@ -39,10 +39,10 @@ Model* AssImporter::getModel() {
 
 Model* AssImporter::buildModel() {
   unsigned int nr_faces = ai_mesh->mNumFaces;
-  unsigned int nr_verts = ai_mesh->mNumVertices;
+  //unsigned int nr_verts = ai_mesh->mNumVertices;
 
   Model* model = new Model;
-  for(int i = 0; i < nr_faces; ++i) {
+  for(unsigned int i = 0; i < nr_faces; ++i) {
     Face* face = buildFace(i);
     model->addFace(face);
   }
@@ -50,16 +50,16 @@ Model* AssImporter::buildModel() {
 }
 
 Face* AssImporter::buildFace(int face_index) {
-      aiFace ai_face = ai_mesh->mFaces[face_index];
-      int number_of_indices = ai_face.mNumIndices;
-      glm::vec3 vertices [3];
-      for(int i = 0; i < 3; i++) {
-        int vertex_index = ai_face.mIndices[i];
-        aiVector3D vertex = ai_mesh->mVertices[vertex_index];
-        vertices[i] = glm::vec3(vertex.x, 
-                                vertex.y, 
-                                vertex.z);
-      }
-      Face* new_face = new Face(vertices[0], vertices[1], vertices[2]);
-      return new_face;
+    aiFace ai_face = ai_mesh->mFaces[face_index];
+    //int number_of_indices = ai_face.mNumIndices;
+    glm::vec3 vertices [3];
+    for(int i = 0; i < 3; i++) {
+      int vertex_index = ai_face.mIndices[i];
+      aiVector3D vertex = ai_mesh->mVertices[vertex_index];
+      vertices[i] = glm::vec3(vertex.x, 
+                              vertex.y, 
+                              vertex.z);
+    }
+    Face* new_face = new Face(vertices[0], vertices[1], vertices[2]);
+    return new_face;
 }

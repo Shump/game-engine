@@ -1,8 +1,9 @@
 #ifndef SHADER_HPP
 #define SHADER_HPP
 
-#include <GLFW/glfw3.h>
+#include "opengl.hpp"
 #include <string>
+#include <glm/glm.hpp>
 
 class Shader {
 public:
@@ -12,14 +13,15 @@ public:
 
 private:
   // TODO: Extract into own shader loader class!
-  static std::string file;
+  std::string file;
 
-  static GLuint loadShader(std::string path);
-  static GLenum getShaderType();
-  static std::string loadSourceCode();
-  static GLuint createAndCompileShader(GLenum type, std::string source);
-  static void checkForError(GLuint shader_index);
-  static void reportError(GLuint shader_index);
+  GLuint loadShader(std::string path);
+  GLenum getShaderType();
+  std::string loadSourceCode();
+  GLuint createAndCompileShader(GLenum type, std::string source);
+  void checkForError(GLuint shader_index);
+  void reportError(GLuint shader_index);
+
 
 
 };
@@ -29,4 +31,4 @@ private:
 
 
 
-#endif SHADER_HPP
+#endif

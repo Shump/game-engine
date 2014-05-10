@@ -1,9 +1,8 @@
-#define GLFW_INCLUDE_GL3
-#define GLFW_NO_GLU
-#include <GL/glfw.h>
+#include "opengl.hpp"
 
 #include "ShaderProgram.hpp"
 
+#include <glm/gtc/type_ptr.hpp>
 
 ShaderProgram::ShaderProgram(std::initializer_list<Shader> list) : shaders(list) {
   
@@ -17,8 +16,19 @@ ShaderProgram::ShaderProgram(std::initializer_list<Shader> list) : shaders(list)
   glBindFragDataLocation(shader_program, 0, "outColor");
 
   // TODO: Fix dynamic attribute stuff
-  glBindAttribLocation(shader_program, position_index, "position");
+  glBindAttribLocation(shader_program, position_index, "position"); // The index for "position" input in the vertex shader is hardcoded for position_index.
 
   glLinkProgram(shader_program);
 
 }
+
+void ShaderProgram::setUniform(const std::string& name, const glm::vec3& value) {
+  GLint location = glGetUniformLocation(shader_program, name.c_str());
+  glUniform3f(location, value.x, value.y, value.z);
+}
+
+void ShaderProgram::setUniform(const std::string& name, const glm::mat4& value) {
+  GLint location = glGetUniformLocation(shader_program, name.c_str());
+  glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+  

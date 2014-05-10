@@ -2,6 +2,14 @@
 #include "opengl.hpp"
 #include <string>
 
+#include <iostream>
+
+#include <glm/gtc/matrix_transform.hpp>
+
+GraphicsEngine::~GraphicsEngine() {
+  glfwTerminate();
+}
+
 void GraphicsEngine::setShaderProgram(std::shared_ptr<ShaderProgram> program) {
   GraphicsEngine::program = program;
 
@@ -15,27 +23,30 @@ void GraphicsEngine::init() {
   }
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 }
 
 void GraphicsEngine::start(unsigned int width, unsigned int height, std::string title) {
-  
-  if(!glfwOpenWindow(width, height, 0, 0, 0, 0, 0, 0, GLFW_WINDOW)) {
+
+  window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+  if(!window) {
     glfwTerminate();
+    // TODO: Throw error exception!
     return;
   }
 
-  // Set window title AFTER window is open.
-  glfwSetWindowTitle(title.c_str());
-
+  glfwMakeContextCurrent(window);
   //glfwDisable(GLFW_MOUSE_CURSOR);
+
+  proj_matrix = glm::perspective(45.0f, float(width / height), 1.0f, 10.0f);
 }
 
 void GraphicsEngine::drawModel(const Model& model) {
 
   glBindVertexArray(model.getVertexArrayObject());
+  glBindBuffer(GL_ARRAY_BUFFER, model.getVertexBufferObject());
 
   glDrawArrays(GL_TRIANGLES, 0, model.getNumberVertices());
 
@@ -48,10 +59,8 @@ void GraphicsEngine::drawScene(const Scene& scene) {
 }
 
 void GraphicsEngine::render() {
-  glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glfwSwapBuffers(window);
 
-  glfwSwapBuffers();
 }
 
 

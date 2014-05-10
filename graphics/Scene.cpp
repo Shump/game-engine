@@ -25,6 +25,7 @@ Scene::Scene(std::vector<Model*> new_models) {
 }
 
 void Scene::addModel(Model* model) {
+  model->setupGPU();
   models.push_back(model);
 
 }

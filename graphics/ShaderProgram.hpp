@@ -6,8 +6,8 @@
 #include <initializer_list>
 #include <vector>
 
-#include <GLFW/glfw3.h>
-
+#include "opengl.hpp"
+#include <glm/glm.hpp>
 
 class ShaderProgram {
 public:
@@ -16,6 +16,9 @@ public:
   GLuint position_index = 0;
 
   ShaderProgram(std::initializer_list<Shader> list);
+
+  void setUniform(const std::string& name, const glm::vec3& value);
+  void setUniform(const std::string& name, const glm::mat4& value);
 
 private:
   std::vector<Shader> shaders;
@@ -30,4 +33,4 @@ private:
 
 
 
-#endif SHADERPROGRAM_HPP
+#endif

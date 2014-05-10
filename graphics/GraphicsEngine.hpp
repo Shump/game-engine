@@ -1,19 +1,20 @@
 #ifndef GRAPHICSENGINE_HPP
 #define GRAPHICSENGINE_HPP
 
-//#define GLFW_INCLUDE_GL3
-//#define GLFW_NO_GLU
-
 #include "ShaderProgram.hpp"
 #include "Scene.hpp"
 #include "Model.hpp"
+#include "opengl.hpp"
 
-#include <GLFW/glfw3.h>
 #include <string>
 #include <memory>
 
+#include <glm/glm.hpp>
+
 class GraphicsEngine {
 public:
+
+  ~GraphicsEngine();
 
   void setShaderProgram(std::shared_ptr<ShaderProgram> program);
 
@@ -24,10 +25,23 @@ public:
   void drawScene(const Scene& scene);
   void render();
   void stop();
+  bool shouldClose() {
+    return glfwWindowShouldClose(window);
+  }
+  void pollEvents() {
+    glfwPollEvents();
+  }
+  
+  const glm::mat4& getProjMatrix() const {
+    return proj_matrix;
+  }
 
 private:
+  GLFWwindow* window;
 
   std::shared_ptr<ShaderProgram> program;
+
+  glm::mat4 proj_matrix;
   
 };
 

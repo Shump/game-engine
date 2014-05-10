@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+#include <glm/glm.hpp>
+
 using namespace std;
 
 class Model {
@@ -27,8 +29,18 @@ public:
 
   std::string toString() const;
 
+  void setPosition(const glm::vec3& pos);
+  void setRotation(const glm::vec3& rot);
+  void setScale(const glm::vec3& scale);
+  void setTransformation(const glm::vec3& pos, const glm::vec3& rot, const glm::vec3& scale);
+
+  void rotate(const float angle, const glm::vec3& axis);
+
+  const glm::mat4& getModelMatrix() const;
 
 private:
+  void updateModelMatrix();
+
   bool buffers_generated = false;
 
   std::vector<Face> faces;
@@ -38,9 +50,11 @@ private:
   GLuint vertex_buffer_object;
   std::shared_ptr<ShaderProgram> shader_program;
 
-
+  glm::vec3 pos, rot, scale;
+  glm::mat4 model_matrix;
 };
 
 
 
-#endif MODEL_HPP
+#endif
+
