@@ -10,7 +10,7 @@ class Camera {
 public:
 
   Camera();
-  Camera(const glm::vec3& pos, const glm::vec3& target, const glm::vec3& up);
+  Camera(const glm::vec3& pos, const glm::vec3& dir, const glm::vec3& up);
 
   void move(const glm::vec3& move_dir) {
     pos = pos + move_dir;
@@ -22,7 +22,7 @@ public:
   }
 
   void rotateYaw(const float angle) { // Left and right
-    dir = glm::rotateY(dir, -angle);
+    dir = glm::rotateZ(dir, -angle);
   }
 
   const glm::mat4 getViewMatrix() const {

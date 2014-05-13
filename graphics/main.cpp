@@ -32,9 +32,12 @@ int main() {
   Dark::Importer importer;  
   Scene* scene = importer.loadScene<AssImporter>("data/sphere.dae");
 
-  Camera cam(glm::vec3(0.0f, 0.0f, -5.0f),
-             glm::vec3(0.0f, 0.0f, 1.0f),
-             glm::vec3(0.0f, 1.0f, 0.0f));
+  //Camera cam(glm::vec3(0.0f, 0.0f, -5.0f),
+  //           glm::vec3(0.0f, 0.0f, 1.0f),
+  //           glm::vec3(0.0f, 1.0f, 0.0f));
+  Camera cam(glm::vec3(0.0f, -5.0f, 0.0f),
+             glm::vec3(0.0f, 1.0f, 0.0f),
+             glm::vec3(0.0f, 0.0f, 1.0f));
   scene->setCamera(cam);
 
   double time = glfwGetTime();
@@ -72,10 +75,10 @@ int main() {
     }
     if (glfwGetKey(ge.window, GLFW_KEY_SPACE) == GLFW_PRESS){
       moved = true;
-      move_dir += glm::vec3(0.0f, 1.0f, 0.0f);
+      move_dir += glm::vec3(0.0f, 0.0f, 1.0f);
     } else if (glfwGetKey(ge.window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS){
       moved = true;
-      move_dir += glm::vec3(0.0f, -1.0f, 0.0f);
+      move_dir += glm::vec3(0.0f, 0.0f, -1.0f);
     }
 
     if (moved)
