@@ -15,6 +15,7 @@ using namespace Assimp;
 
 AssImporter::AssImporter(const std::string& path) : importer() {
   ai_scene = importer.ReadFile(path, 
+      aiProcess_GenSmoothNormals       |
       aiProcess_CalcTangentSpace       |
       aiProcess_Triangulate            |
       aiProcess_JoinIdenticalVertices  |
@@ -53,13 +54,21 @@ Face* AssImporter::buildFace(int face_index) {
     aiFace ai_face = ai_mesh->mFaces[face_index];
     //int number_of_indices = ai_face.mNumIndices;
     glm::vec3 vertices [3];
+    glm::vec3 normals [3];
     for(int i = 0; i < 3; i++) {
       int vertex_index = ai_face.mIndices[i];
       aiVector3D vertex = ai_mesh->mVertices[vertex_index];
-      vertices[i] = glm::vec3(vertex.x, 
-                              vertex.y, 
-                              vertex.z);
+      aiVector3D normal = ai_mesh->mNormals[vertex_index];
+      vertices[i] = glm::vec3(vertex.x, vertex.y, vertex.z);
+      normals[i] = glm::vec3(normal.x, normal.y, normal.z);
     }
-    Face* new_face = new Face(vertices[0], vertices[1], vertices[2]);
+    Face* new_face = new Face(vertices[0], vertices[1], vertices[2],
+                              normals[0], normals[1], normals[2]);
     return new_face;
 }
+
+
+
+
+
+

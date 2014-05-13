@@ -22,6 +22,11 @@ ShaderProgram::ShaderProgram(std::initializer_list<Shader> list) : shaders(list)
 
 }
 
+void ShaderProgram::setUniform(const std::string& name, float value) {
+  GLint location = glGetUniformLocation(shader_program, name.c_str());
+  glUniform1f(location, value);
+}
+
 void ShaderProgram::setUniform(const std::string& name, const glm::vec3& value) {
   GLint location = glGetUniformLocation(shader_program, name.c_str());
   glUniform3f(location, value.x, value.y, value.z);

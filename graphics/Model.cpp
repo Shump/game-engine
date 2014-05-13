@@ -18,7 +18,7 @@ Model::Model(vector<Face> _faces,
 
 Model::~Model() {
   if(buffers_generated) {
-    glDeleteBuffers(1, &vertex_buffer_object);
+    glDeleteBuffers(1, &vertices_vbo);
     glDeleteVertexArrays(1, &vertex_array_object);
   }
   //for(Face* face : faces) {
@@ -34,8 +34,17 @@ void Model::setupGPU() {
     glGenVertexArrays(1, &vertex_array_object);
     glBindVertexArray(vertex_array_object);
 
-    glGenBuffers(1, &vertex_buffer_object);
-    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer_object);
+    setupVertices();
+    setupNormals();
+
+    buffers_generated = true;
+    glBindVertexArray(0); // Bind to unassigned vao
+  }
+}
+
+void Model::setupVertices() {
+    glGenBuffers(1, &vertices_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vertices_vbo);
 
     glBufferData(GL_ARRAY_BUFFER, 
                  vertices.size() * sizeof(float), 
@@ -43,23 +52,46 @@ void Model::setupGPU() {
                  GL_STATIC_DRAW); // TODO: Allow for DYNAMIC_DRAW and STREAM_DRAW
 
     
-    const int POSITION_INDEX = 0; // TODO: Fix dynamic index assignment by program. This is hardcoded for the "position" input in the vertex shader.
-    const int NUMBER_OF_ELEMENTS = 3;
-    const int TYPE = GL_FLOAT;
-    const bool NORMALIZATION = GL_FALSE;
-    const int STRIDE_STEPS = 0;
-    const void* BUFFER_OFFSET = 0;
-    glEnableVertexAttribArray(POSITION_INDEX);
-    glVertexAttribPointer(POSITION_INDEX,
-                          NUMBER_OF_ELEMENTS, 
-                          TYPE, 
-                          NORMALIZATION, 
-                          STRIDE_STEPS, 
-                          BUFFER_OFFSET);
-    buffers_generated = true;
+    const int position_index = 0; // TODO: Fix dynamic index assignment by program. This is hardcoded for the "position" input in the vertex shader.
+    const int number_of_elements = 3;
+    const int type = GL_FLOAT;
+    const bool normalization = GL_FALSE;
+    const int stride_steps = 0;
+    const void* buffer_offset = 0;
+    glEnableVertexAttribArray(position_index);
+    glVertexAttribPointer(position_index,
+                          number_of_elements, 
+                          type, 
+                          normalization, 
+                          stride_steps, 
+                          buffer_offset);
+}
 
-    glBindVertexArray(0);
-  }
+void Model::setupNormals() {
+    glGenBuffers(1, &normals_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, normals_vbo);
+
+    glBufferData(GL_ARRAY_BUFFER, 
+                 normals.size() * sizeof(float), 
+                 normals.data(), 
+                 GL_STATIC_DRAW); // TODO: Allow for DYNAMIC_DRAW and STREAM_DRAW
+
+    
+    const int position_index = 1; // TODO: Fix dynamic index assignment by program. This is hardcoded for the "position" input in the vertex shader.
+    const int number_of_elements = 3;
+    const int type = GL_FLOAT;
+    const bool normalization = GL_FALSE;
+    const int stride_steps = 0;
+    const void* buffer_offset = 0;
+    glEnableVertexAttribArray(position_index);
+    glVertexAttribPointer(position_index,
+                          number_of_elements, 
+                          type, 
+                          normalization, 
+                          stride_steps, 
+                          buffer_offset);
+
+
 }
 
 GLuint Model::getVertexArrayObject() const {
@@ -70,11 +102,19 @@ GLuint Model::getVertexArrayObject() const {
   }
 }
 
-GLuint Model::getVertexBufferObject() const {
+GLuint Model::getVerticesVBO() const {
   if(buffers_generated) {
-    return vertex_buffer_object;
+    return vertices_vbo;
   } else {
-    throw std::runtime_error("Model::getVertexArrayObject: vertex buffer object is not genereated for the model!");
+    throw std::runtime_error("Model::getVerticesVBO: vertex buffer object is not genereated for the vertices in the model!");
+  }
+}
+
+GLuint Model::getNormalsVBO() const {
+  if(buffers_generated) {
+    return normals_vbo;
+  } else {
+    throw std::runtime_error("Model::getNormalsVBO: vertex buffer object is not genereated for the normals in the model!");
   }
 }
 
@@ -89,6 +129,7 @@ void Model::addFace(Face* face) {
   for(int vertex = 0; vertex < 3; vertex++) {
     for(int component = 0; component < 3; component++) {
       vertices.push_back( (*face)[vertex][component] );
+      normals.push_back( (*face).normals[vertex][component] );
     }
   }
 }

@@ -21,7 +21,8 @@ public:
   ~Model();
 
   GLuint getVertexArrayObject() const;
-  GLuint getVertexBufferObject() const;
+  GLuint getVerticesVBO() const;
+  GLuint getNormalsVBO() const;
   int getNumberVertices() const;
   
   void addFace(Face* face);
@@ -39,15 +40,20 @@ public:
   const glm::mat4& getModelMatrix() const;
 
 private:
+  void setupVertices();
+  void setupNormals();
+
   void updateModelMatrix();
 
   bool buffers_generated = false;
 
   std::vector<Face> faces;
   std::vector<float> vertices;
+  std::vector<float> normals;
   std::vector<float> colors;
   GLuint vertex_array_object;
-  GLuint vertex_buffer_object;
+  GLuint vertices_vbo;
+  GLuint normals_vbo;
   std::shared_ptr<ShaderProgram> shader_program;
 
   glm::vec3 pos, rot, scale;

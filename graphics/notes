@@ -1,16 +1,15 @@
 
 implement basic shading etc:
-  - draw background
-  - directional light
-  - ambient light
+  - draw cool background
   - point light
 
 
 improve scene loader
-  - normals
   - camera loading
   - textures
   - point lights
 
 
+Questions:
+  - Why is glEnable/DisableVertexAttribArray needed?
 

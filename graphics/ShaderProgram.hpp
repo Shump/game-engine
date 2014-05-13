@@ -17,6 +17,7 @@ public:
 
   ShaderProgram(std::initializer_list<Shader> list);
 
+  void setUniform(const std::string& name, float value);
   void setUniform(const std::string& name, const glm::vec3& value);
   void setUniform(const std::string& name, const glm::mat4& value);
 
