@@ -77,17 +77,22 @@ Model* AssImporter::buildModel() {
 Face* AssImporter::buildFace(int face_index) {
     aiFace ai_face = ai_mesh->mFaces[face_index];
     //int number_of_indices = ai_face.mNumIndices;
-    glm::vec3 vertices [3];
+    glm::vec3 positions [3];
     glm::vec3 normals [3];
+    glm::vec2 uvs[3];
     for(int i = 0; i < 3; i++) {
       int vertex_index = ai_face.mIndices[i];
-      aiVector3D vertex = ai_mesh->mVertices[vertex_index];
+      aiVector3D pos = ai_mesh->mVertices[vertex_index];
       aiVector3D normal = ai_mesh->mNormals[vertex_index];
-      vertices[i] = glm::vec3(vertex.x, vertex.y, vertex.z);
+      aiVector3D* uv     = ai_mesh->mTextureCoords[vertex_index];
+      positions[i] = glm::vec3(pos.x, pos.y, pos.z);
       normals[i] = glm::vec3(normal.x, normal.y, normal.z);
+      if (ai_mesh->HasTextureCoords(vertex_index))
+        uvs[i] = glm::vec2(uv->x, uv->y);
     }
-    Face* new_face = new Face(vertices[0], vertices[1], vertices[2],
-                              normals[0], normals[1], normals[2]);
+    Face* new_face = new Face(positions[0],  positions[1],  positions[2],
+                              normals[0],   normals[1],   normals[2],
+                              uvs[0],       uvs[1],       uvs[2]);
     return new_face;
 }
 

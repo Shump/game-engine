@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.70.0 commit date:2014-04-10, commit time:11:49, hash:f93bc76</authoring_tool>
     </contributor>
-    <created>2014-05-14T21:21:07</created>
-    <modified>2014-05-14T21:21:07</modified>
+    <created>2014-05-14T22:46:19</created>
+    <modified>2014-05-14T22:46:19</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -55,14 +55,24 @@
             </accessor>
           </technique_common>
         </source>
+        <source id="Plane-mesh-map-0">
+          <float_array id="Plane-mesh-map-0-array" count="12">0 0 1 0 1 1 0 1 0 0 1 1</float_array>
+          <technique_common>
+            <accessor source="#Plane-mesh-map-0-array" count="6" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
         <vertices id="Plane-mesh-vertices">
           <input semantic="POSITION" source="#Plane-mesh-positions"/>
         </vertices>
         <polylist count="2">
           <input semantic="VERTEX" source="#Plane-mesh-vertices" offset="0"/>
           <input semantic="NORMAL" source="#Plane-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane-mesh-map-0" offset="2" set="0"/>
           <vcount>3 3 </vcount>
-          <p>0 0 1 0 3 0 2 1 0 1 3 1</p>
+          <p>0 0 0 1 0 1 3 0 2 2 1 3 0 1 4 3 1 5</p>
         </polylist>
       </mesh>
     </geometry>

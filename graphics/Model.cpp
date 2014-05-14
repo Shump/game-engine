@@ -42,6 +42,32 @@ void Model::setupGPU() {
   }
 }
 
+template<int elements>
+void Model::setupVBO(GLuint* buffer, std::vector<float>* vector, 
+                     int position_index) {
+    glGenBuffers(1, buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, *buffer);
+
+    glBufferData(GL_ARRAY_BUFFER, 
+                 vector->size() * sizeof(float), 
+                 vector->data(), 
+                 GL_STATIC_DRAW); // TODO: Allow for DYNAMIC_DRAW and STREAM_DRAW
+
+    
+    const int type = GL_FLOAT;
+    const bool normalization = GL_FALSE;
+    const int stride_steps = 0;
+    const void* buffer_offset = 0;
+    glEnableVertexAttribArray(position_index);
+    glVertexAttribPointer(position_index,
+                          elements, 
+                          type, 
+                          normalization, 
+                          stride_steps, 
+                          buffer_offset);
+
+}
+
 void Model::setupVertices() {
     glGenBuffers(1, &vertices_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vertices_vbo);

@@ -40,6 +40,8 @@ public:
   const glm::mat4& getModelMatrix() const;
 
 private:
+  template<int elements>
+  void setupVBO(GLuint* buffer, std::vector<float>* vector, int position_index);
   void setupVertices();
   void setupNormals();
 
@@ -51,9 +53,13 @@ private:
   std::vector<float> vertices;
   std::vector<float> normals;
   std::vector<float> colors;
+  std::vector<float> uvs;
+
   GLuint vertex_array_object;
   GLuint vertices_vbo;
   GLuint normals_vbo;
+  GLuint uv_vbo;
+
   std::shared_ptr<ShaderProgram> shader_program;
 
   glm::vec3 pos, rot, scale;

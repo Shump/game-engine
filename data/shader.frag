@@ -1,6 +1,7 @@
 
 #version 330
 in vec3 Normal;
+in vec2 TextureCords;
 uniform vec3 triangleColor;
 
 uniform vec3 ambient_color;
