@@ -3,6 +3,7 @@
 #include "AssImporter.hpp"
 #include "Scene.hpp"
 #include "Face.hpp"
+#include "Camera.hpp"
 #include <glm/glm.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -19,6 +20,7 @@ AssImporter::AssImporter(const std::string& path) : importer() {
       aiProcess_CalcTangentSpace       |
       aiProcess_Triangulate            |
       aiProcess_JoinIdenticalVertices  |
+      aiProcess_PreTransformVertices   |
       aiProcess_SortByPType);
   if(!ai_scene || !ai_scene->HasMeshes()) {
     throw std::runtime_error("Unable to load mesh!");
@@ -28,10 +30,32 @@ AssImporter::AssImporter(const std::string& path) : importer() {
 
 // This do not support a hierarchical scene and only one mesh!
 Scene* AssImporter::getScene() {
-  Model* model = buildModel();
   Scene* result_scene = new Scene();
+
+  Camera cam = buildCamera();
+  result_scene->setCamera(cam);
+  Model* model = buildModel();
   result_scene->addModel(model);
   return result_scene;
+}
+
+Camera AssImporter::buildCamera() {
+  if(ai_scene->HasCameras()) {
+  aiCamera* ai_cam = ai_scene->mCameras[0];
+  aiVector3D pos = ai_cam->mPosition;
+  aiVector3D dir = ai_cam->mLookAt;
+  aiVector3D up = ai_cam->mUp;
+
+  return Camera(glm::vec3(pos.x, pos.y, pos.z),
+                glm::vec3(dir.x, dir.y, dir.z),
+                glm::vec3(0.0f, 1.0f,0.0f));
+  } else {
+    std::string file = __FILE__;
+    std::string func = __func__;
+    std::string line = std::to_string(__LINE__ + 1);
+    throw std::runtime_error("In " + file + ":\n\t" + func + ":" + line + ":" +
+        "No existing camera!");
+  }
 }
 
 Model* AssImporter::getModel() {

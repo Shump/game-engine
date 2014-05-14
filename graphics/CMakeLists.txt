@@ -11,6 +11,7 @@ set(SRCS
     Model.cpp 
     AssImporter.cpp 
     Camera.cpp
+    Texture.cpp
     main.cpp)
 
 
@@ -24,6 +25,7 @@ set(LIBS
     boost_filesystem
     boost_system
     assimp
+    freeimageplus
     Cocoa
     OpenGL)
 
@@ -56,6 +58,9 @@ target_link_libraries(dark ${SYSTEM_PATH})
 
 find_library(ASSIMP_PATH assimp)
 target_link_libraries(dark ${ASSIMP_PATH})
+
+find_library(FREEIMAGE_PATH freeimageplus)
+target_link_libraries(dark ${FREEIMAGE_PATH})
 
 find_library(COCOA_PATH Cocoa)
 target_link_libraries(dark ${COCOA_PATH})

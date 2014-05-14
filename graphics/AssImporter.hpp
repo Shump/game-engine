@@ -3,6 +3,7 @@
 
 #include "Scene.hpp"
 #include "Model.hpp"
+#include "Camera.hpp"
 #include <assimp/Importer.hpp>
 #include <string>
 
@@ -17,6 +18,7 @@ private:
   const aiScene* ai_scene;
   aiMesh* ai_mesh;
 
+  Camera buildCamera();
   Model* buildModel();
   Face* buildFace(int face_index);
 

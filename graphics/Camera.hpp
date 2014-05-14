@@ -22,7 +22,7 @@ public:
   }
 
   void rotateYaw(const float angle) { // Left and right
-    dir = glm::rotateZ(dir, -angle);
+    dir = glm::rotateY(dir, -angle);
   }
 
   const glm::mat4 getViewMatrix() const {

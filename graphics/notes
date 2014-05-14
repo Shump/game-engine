@@ -5,8 +5,10 @@ implement basic shading etc:
 
 
 improve scene loader
+  - fix proper scene graph
+  - fix transformation matrix application
   - camera loading
-  - textures
+  - textures          <-
   - point lights
 
 
