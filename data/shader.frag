@@ -20,6 +20,5 @@ void main() {
   diffuse_sun_factor = max(diffuse_sun_factor, 0.0);
 
   vec4 diffuse_light = vec4(sun_color, 0.0) * sun_intensity * diffuse_sun_factor;
-  vec4 texture_color = texture(sampler, TextureCords);
-  outColor = vec4(texture_color.b, texture_color.g, texture_color.r, 1.0) * (ambient_light + diffuse_light);
+  outColor = texture(sampler, TextureCords) * (ambient_light + diffuse_light);
 }

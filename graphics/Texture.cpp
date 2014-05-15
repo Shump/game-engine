@@ -52,15 +52,15 @@ void Texture::upload() {
   switch(channels) {
     case RGB:
       from_format = GL_RGB;
-      to_format = GL_RGB;
+      to_format = GL_BGR;
       break;
     case RGBA:
       from_format = GL_RGBA;
-      to_format = GL_RGBA;
+      to_format = GL_BGRA;
       break;
     default:
       from_format = GL_RGB;
-      to_format = GL_RGB;
+      to_format = GL_BGR;
       break;
   }
 
