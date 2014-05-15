@@ -44,12 +44,17 @@ void GraphicsEngine::start(unsigned int width, unsigned int height, std::string 
   proj_matrix = glm::perspective(45.0f, float(width / height), 0.1f, 100.0f);
 
   glEnable(GL_DEPTH_TEST);
+
+  texture.load("data/duck.jpg");
 }
 
 void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
 
     glBindVertexArray(model.getVertexArrayObject());
     glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesVBO());
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
 
     program->setUniform("model_mat", model.getModelMatrix());
     program->setUniform("view_mat", view_mat);

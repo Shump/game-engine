@@ -7,6 +7,10 @@
 #include <FreeImagePlus.h>
 
 Texture::Texture(const std::string& path) {
+  load(path);
+}
+
+void Texture::load(const std::string& path) {
   if (!image.load(path.c_str())) {
     std::string file = __FILE__;
     std::string func = __func__;
@@ -24,9 +28,11 @@ Texture::Texture(const std::string& path) {
   else if (bits_per_pixel == 32)
     channels = RGBA;
 
-  
-  
+  upload();
+
+  is_loaded = true;
 }
+
 
 void Texture::upload() {
   glGenTextures(1, &texture_id);
@@ -42,16 +48,19 @@ void Texture::upload() {
 
   glGenerateMipmap(GL_TEXTURE_2D);
 
-  GLint format;
+  GLint from_format, to_format;
   switch(channels) {
     case RGB:
-      format = GL_RGB;
+      from_format = GL_RGB;
+      to_format = GL_RGB;
       break;
     case RGBA:
-      format = GL_RGBA;
+      from_format = GL_RGBA;
+      to_format = GL_RGBA;
       break;
     default:
-      format = GL_RGB;
+      from_format = GL_RGB;
+      to_format = GL_RGB;
       break;
   }
 
@@ -59,11 +68,11 @@ void Texture::upload() {
   const GLint border = 0;
   glTexImage2D(GL_TEXTURE_2D,
                mipmap_level,
-               format,
+               from_format,
                width,
                height,
                border,
-               format,
+               to_format,
                GL_UNSIGNED_BYTE,
                image.accessPixels());
 

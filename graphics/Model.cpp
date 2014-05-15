@@ -36,6 +36,7 @@ void Model::setupGPU() {
 
     setupVertices();
     setupNormals();
+    setupVBO<2>(&uv_vbo, &uvs, 2);
 
     buffers_generated = true;
     glBindVertexArray(0); // Bind to unassigned vao
@@ -144,6 +145,14 @@ GLuint Model::getNormalsVBO() const {
   }
 }
 
+GLuint Model::getTextureCoords() const {
+  if(buffers_generated) {
+    return uv_vbo;
+  } else {
+    throw std::runtime_error("Model::getTextureCoords: vertex buffer object is not genereated for the texture coordinates in the model!");
+  }
+}
+
 int Model::getNumberVertices() const {
   return vertices.size();
 }
@@ -156,6 +165,8 @@ void Model::addFace(Face* face) {
     for(int component = 0; component < 3; component++) {
       vertices.push_back( (*face)[vertex][component] );
       normals.push_back( (*face).normals[vertex][component] );
+      if (component != 2)
+      uvs.push_back( (*face).uvs[vertex][component] );
     }
   }
 }

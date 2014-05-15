@@ -43,7 +43,6 @@ int main() {
   double old_mouse_x, old_mouse_y;
   glfwGetCursorPos(ge.window, &old_mouse_x, &old_mouse_y);
 
-  Texture text("data/duck.jpg");
 
   while(!ge.shouldClose()) {
 

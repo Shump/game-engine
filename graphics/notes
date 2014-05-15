@@ -1,5 +1,3 @@
-segmentation fault in buildFace from accessing uv coordinates!
-  - build one vertex at a time
 
 continue with uplaoding uv-coordingates
 

@@ -10,17 +10,30 @@
 
 class Texture {
 public:
-  Texture(const std::string&);
+  Texture()  {};
+  Texture(const std::string& path);
 
-  unsigned int getWidth() {
+  void load(const std::string& path);
+
+  unsigned int getWidth() const {
     return width;
   }
 
-  unsigned int getHeight() {
+  unsigned int getHeight() const {
     return height;
   }
 
+  GLuint getTextureId() const {
+    if (is_loaded) {
+      return texture_id;
+    } else {
+      throw std::runtime_error("Texture::getTextureId: An image has not been loaded into the texture!");
+    }
+  }
+
 private:
+  bool is_loaded = false;
+
   enum Channels { RGB, RGBA } channels;
   void upload();
 

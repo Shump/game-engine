@@ -11,6 +11,8 @@ uniform vec3 sun_color;
 uniform float sun_intensity;
 uniform vec3 sun_dir;
 
+uniform sampler2D sampler;
+
 out vec4 outColor;
 void main() {
   vec4 ambient_light = vec4(ambient_color, 1.0) * ambient_intensity;
@@ -18,5 +20,6 @@ void main() {
   diffuse_sun_factor = max(diffuse_sun_factor, 0.0);
 
   vec4 diffuse_light = vec4(sun_color, 0.0) * sun_intensity * diffuse_sun_factor;
-  outColor = vec4(triangleColor, 1.0) * (ambient_light + diffuse_light);
+  vec4 texture_color = texture(sampler, TextureCords);
+  outColor = vec4(texture_color.b, texture_color.g, texture_color.r, 1.0) * (ambient_light + diffuse_light);
 }

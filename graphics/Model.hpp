@@ -23,6 +23,7 @@ public:
   GLuint getVertexArrayObject() const;
   GLuint getVerticesVBO() const;
   GLuint getNormalsVBO() const;
+  GLuint getTextureCoords() const;
   int getNumberVertices() const;
   
   void addFace(Face* face);

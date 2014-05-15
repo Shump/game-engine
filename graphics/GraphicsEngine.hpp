@@ -4,6 +4,7 @@
 #include "ShaderProgram.hpp"
 #include "Scene.hpp"
 #include "Model.hpp"
+#include "Texture.hpp"
 #include "opengl.hpp"
 
 #include <string>
@@ -38,6 +39,7 @@ public:
 
   GLFWwindow* window;
 private:
+  Texture texture;
 
   std::shared_ptr<ShaderProgram> program;
 
