@@ -54,7 +54,7 @@ void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
     glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesVBO());
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture.getTextureId());
+    glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureId());
 
     program->setUniform("model_mat", model.getModelMatrix());
     program->setUniform("view_mat", view_mat);

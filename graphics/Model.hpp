@@ -4,6 +4,7 @@
 #include "opengl.hpp"
 #include "ShaderProgram.hpp"
 #include "Face.hpp"
+#include "Texture.hpp"
 
 #include <memory>
 #include <vector>
@@ -25,8 +26,13 @@ public:
   GLuint getNormalsVBO() const;
   GLuint getTextureCoords() const;
   int getNumberVertices() const;
+
+  const Texture& getTexture() const {
+    return texture;
+  }
   
   void addFace(Face* face);
+  void addTexture(Texture texture);
   void setupGPU();
 
   std::string toString() const;
@@ -62,6 +68,8 @@ private:
   GLuint uv_vbo;
 
   std::shared_ptr<ShaderProgram> shader_program;
+
+  Texture texture;
 
   glm::vec3 pos, rot, scale;
   glm::mat4 model_matrix;

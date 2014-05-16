@@ -1,21 +1,20 @@
-
-continue with uplaoding uv-coordingates
-
-try to get collada file to include image name
-
 implement basic shading etc:
   - draw cool background
   - point light
-
 
 improve scene loader
   - fix proper scene graph
   - fix transformation matrix application.
   - camera loading
-  - textures          <-
+    - camera transformation
   - point lights
 
 
 Questions:
   - Why is glEnable/DisableVertexAttribArray needed?
 
+
+breakpoint plugin:
+  - update when line are deleted etc.
+  - show breakpoints
+  - jump to next

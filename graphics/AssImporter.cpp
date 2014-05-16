@@ -64,19 +64,34 @@ Model* AssImporter::getModel() {
 
 Model* AssImporter::buildModel() {
   unsigned int nr_faces = ai_mesh->mNumFaces;
-  //unsigned int nr_verts = ai_mesh->mNumVertices;
 
   Model* model = new Model;
   for(unsigned int i = 0; i < nr_faces; ++i) {
     Face* face = buildFace(i);
     model->addFace(face);
   }
+
+  model->addTexture(extractTexture());
+
   return model;
+}
+
+Texture AssImporter::extractTexture() {
+  unsigned int material_index = ai_mesh->mMaterialIndex;
+  aiMaterial* ai_material = ai_scene->mMaterials[material_index];
+
+  aiString ai_tex_path;
+  const unsigned int index = 0;
+  ai_material->GetTexture(aiTextureType_DIFFUSE, index, &ai_tex_path);
+
+  std::string tex_path(ai_tex_path.C_Str());
+  tex_path.insert(0, "data/");
+
+  return Texture(tex_path);
 }
 
 Face* AssImporter::buildFace(int face_index) {
     aiFace ai_face = ai_mesh->mFaces[face_index];
-    //int number_of_indices = ai_face.mNumIndices;
     glm::vec3 positions [3];
     glm::vec3 normals [3];
     glm::vec2 uvs[3];

@@ -171,6 +171,11 @@ void Model::addFace(Face* face) {
   }
 }
 
+void Model::addTexture(Texture texture) {
+  Model::texture = texture;
+}
+
+
 std::string Model::toString() const {
   std::string buffer = "Faces: {\n";
   for(const auto face : faces) {
