@@ -19,6 +19,7 @@ public:
 
   Model() {};
   Model(vector<Face> faces, vector<float> vertices, vector<float> colors, shared_ptr<ShaderProgram> shader_program);
+
   ~Model();
 
   GLuint getVertexArrayObject() const;

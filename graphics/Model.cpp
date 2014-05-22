@@ -163,10 +163,10 @@ void Model::addFace(Face* face) {
   // TODO: Optimize, clean-up
   for(int vertex = 0; vertex < 3; vertex++) {
     for(int component = 0; component < 3; component++) {
-      vertices.push_back( (*face)[vertex][component] );
+      vertices.push_back( (*face).coords[vertex][component] );
       normals.push_back( (*face).normals[vertex][component] );
       if (component != 2)
-      uvs.push_back( (*face).uvs[vertex][component] );
+        uvs.push_back( (*face).uvs[vertex][component] );
     }
   }
 }

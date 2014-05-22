@@ -11,6 +11,8 @@
 #include <string>
 #include <exception>
 
+#include "utility.hpp"
+
 
 using namespace Assimp;
 
@@ -20,7 +22,7 @@ AssImporter::AssImporter(const std::string& path) : importer() {
       aiProcess_CalcTangentSpace       |
       aiProcess_Triangulate            |
       aiProcess_JoinIdenticalVertices  |
-      aiProcess_PreTransformVertices   |
+      //aiProcess_PreTransformVertices   |
       aiProcess_SortByPType);
   if(!ai_scene || !ai_scene->HasMeshes()) {
     throw std::runtime_error("Unable to load mesh!");
@@ -42,13 +44,37 @@ Scene* AssImporter::getScene() {
 Camera AssImporter::buildCamera() {
   if(ai_scene->HasCameras()) {
   aiCamera* ai_cam = ai_scene->mCameras[0];
-  aiVector3D pos = ai_cam->mPosition;
-  aiVector3D dir = ai_cam->mLookAt;
-  aiVector3D up = ai_cam->mUp;
 
-  return Camera(glm::vec3(pos.x, pos.y, pos.z),
-                glm::vec3(dir.x, dir.y, dir.z),
-                glm::vec3(0.0f, 1.0f,0.0f));
+  aiNode* root_node = ai_scene->mRootNode;
+  aiNode* camera_node = ai_scene->mRootNode->FindNode(ai_cam->mName);
+
+  aiNode* cur_node = camera_node;
+
+  aiMatrix4x4 acc_mat;
+  while(cur_node != root_node) {
+    aiMatrix4x4 mat = cur_node->mTransformation;
+    acc_mat = mat * acc_mat;
+    cur_node = cur_node->mParent;
+  }
+
+  // root_node's matrix convertes so that looks down -z, that's why it is not included
+
+  glm::vec4 right_orig(1.f, 0.f, 0.f, 0.f);
+  glm::vec4 up_orig(0.f, 1.f, 0.f, 0.f);
+  glm::vec4 forward_orig(0.f, 0.f, -1.f, 0.f);
+  glm::vec4 trans_orig(0.f, 0.f, 0.f, 1.f);
+  glm::mat4 aim(right_orig, up_orig, forward_orig, trans_orig);
+
+  glm::mat4 glm_mat = toGlmMatrix(acc_mat);
+
+  glm::mat4 camera_mat = glm_mat * aim;
+
+  glm::vec3 pos(camera_mat[3].x, camera_mat[3].y, camera_mat[3].z);
+  glm::vec3 forward(camera_mat[2].x, camera_mat[2].y, camera_mat[2].z);
+  
+  // todo: forward == up
+  return Camera(pos, forward, glm::vec3(0.f, 0.f, 1.f));
+  
   } else {
     std::string file = __FILE__;
     std::string func = __func__;

@@ -31,7 +31,7 @@ int main() {
   shader_program->setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
 
   Dark::Importer importer;  
-  Scene* scene = importer.loadScene<AssImporter>("data/plane2.dae");
+  Scene* scene = importer.loadScene<AssImporter>("data/main.dae");
 
   Camera cam(glm::vec3(0.0f, -5.0f, 0.0f),
              glm::vec3(0.0f, 1.0f, 0.0f),
@@ -42,6 +42,10 @@ int main() {
 
   double old_mouse_x, old_mouse_y;
   glfwGetCursorPos(ge.window, &old_mouse_x, &old_mouse_y);
+
+  for(auto m : *scene) {
+    std::cout << m->toString() << std::endl;
+  }
 
 
   while(!ge.shouldClose()) {
@@ -74,10 +78,10 @@ int main() {
     }
     if (glfwGetKey(ge.window, GLFW_KEY_SPACE) == GLFW_PRESS){
       moved = true;
-      move_dir += glm::vec3(0.0f, 1.0f, 0.0f);
+      move_dir += glm::vec3(0.0f, 0.0f, 1.0f);
     } else if (glfwGetKey(ge.window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS){
       moved = true;
-      move_dir += glm::vec3(0.0f, -1.0f, 0.0f);
+      move_dir += glm::vec3(0.0f, 0.0f, -1.0f);
     }
 
     if (moved)

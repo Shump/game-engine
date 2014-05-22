@@ -3,12 +3,17 @@ implement basic shading etc:
   - point light
 
 improve scene loader
-  - fix proper scene graph
+  - fix proper scene graph <-
+    - add mesh classes
+    - add nodes
+    - or, investigate library
   - fix transformation matrix application.
-  - camera loading
-    - camera transformation
   - point lights
 
+fix gamma corrected rendering!
+  - use sRGB textures
+  - use sRGB framebuffers
+  - alt, do in shaders
 
 Questions:
   - Why is glEnable/DisableVertexAttribArray needed?
@@ -18,3 +23,7 @@ breakpoint plugin:
   - update when line are deleted etc.
   - show breakpoints
   - jump to next
+
+
+Matrix transformations:
+  - Root contains matrix to fransform coordinates so that y is up and -z is down.
