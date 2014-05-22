@@ -93,8 +93,7 @@ Model* AssImporter::buildModel() {
 
   Model* model = new Model;
   for(unsigned int i = 0; i < nr_faces; ++i) {
-    Face* face = buildFace(i);
-    model->addFace(face);
+    model->addFace(buildFace(i));
   }
 
   model->addTexture(extractTexture());
@@ -116,7 +115,7 @@ Texture AssImporter::extractTexture() {
   return Texture(tex_path);
 }
 
-Face* AssImporter::buildFace(int face_index) {
+Face AssImporter::buildFace(int face_index) {
     aiFace ai_face = ai_mesh->mFaces[face_index];
     glm::vec3 positions [3];
     glm::vec3 normals [3];
@@ -130,10 +129,10 @@ Face* AssImporter::buildFace(int face_index) {
       normals[i] = glm::vec3(normal.x, normal.y, normal.z);
       uvs[i] = glm::vec2(uv.x, uv.y);
     }
-    Face* new_face = new Face(positions[0],  positions[1],  positions[2],
-                              normals[0],   normals[1],   normals[2],
-                              uvs[0],       uvs[1],       uvs[2]);
-    return new_face;
+
+    return Face(positions[0],  positions[1],  positions[2],
+                normals[0],    normals[1],    normals[2],
+                uvs[0],        uvs[1],        uvs[2]);
 }
 
 

@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <string>
+#include <iostream>
 
 class Face {
 public:
@@ -45,16 +46,20 @@ public:
       : normals(normal0, normal1, normal2),
         uvs(uv0, uv1, uv2),
         coords(location0, location1, location2) {
-        
+    std::cout << "Face ctor" << std::endl;
   };
 
   Face(const Face& other)
-    : normals(other.normals), uvs(other.uvs), coords(other.coords) {};
+    : normals(other.normals), uvs(other.uvs), coords(other.coords) {
+      std::cout << "Face copy ctor" << std::endl;
+  };
 
   Face(Face&& other)
     : normals(std::move(other.normals)), 
       uvs(std::move(other.uvs)), 
-      coords(std::move(other.coords)) {};
+      coords(std::move(other.coords)) {
+    std::cout << "Face move ctor" << std::endl;
+  };
 
   std::string toString() const {
     return coords.toString();

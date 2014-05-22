@@ -157,18 +157,19 @@ int Model::getNumberVertices() const {
   return vertices.size();
 }
 
-void Model::addFace(Face* face) {
-  faces.push_back(*face);
+void Model::addFace(Face&& face) {
 
   // TODO: Optimize, clean-up
   for(int vertex = 0; vertex < 3; vertex++) {
     for(int component = 0; component < 3; component++) {
-      vertices.push_back( (*face).coords[vertex][component] );
-      normals.push_back( (*face).normals[vertex][component] );
+      vertices.push_back( (face).coords[vertex][component] );
+      normals.push_back( (face).normals[vertex][component] );
       if (component != 2)
-        uvs.push_back( (*face).uvs[vertex][component] );
+        uvs.push_back( (face).uvs[vertex][component] );
     }
   }
+
+  faces.push_back(std::move(face));
 }
 
 void Model::addTexture(Texture texture) {
@@ -178,7 +179,7 @@ void Model::addTexture(Texture texture) {
 
 std::string Model::toString() const {
   std::string buffer = "Faces: {\n";
-  for(const auto face : faces) {
+  for(const auto& face : faces) {
     buffer += face.toString() + ",\n";
   }
   buffer += "}\n";

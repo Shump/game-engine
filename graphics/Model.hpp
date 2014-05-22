@@ -32,7 +32,7 @@ public:
     return texture;
   }
   
-  void addFace(Face* face);
+  void addFace(Face&& face);
   void addTexture(Texture texture);
   void setupGPU();
 

@@ -21,7 +21,7 @@ private:
   Camera buildCamera();
   Model* buildModel();
   Texture extractTexture();
-  Face* buildFace(int face_index);
+  Face buildFace(int face_index);
 
 };
 
