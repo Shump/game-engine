@@ -14,9 +14,12 @@ set(SRCS
     Texture.cpp
     main.cpp)
 
+set(COMMON_CFLAGS "-Wall -std=c++1y -stdlib=libc++ -Wno-extra-tokens -O0 -g")
+set(CMAKE_CXX_FLAGS_DEBUG "${COMMON_CFLAGS} -Wall -O0 -g")
+set(CMAKE_CXX_FLAGS_RELEASE "${COMMON_CFLAGS} -Wall -O3")
 
-set(CFLAGS -Wall -std=c++1y -stdlib=libc++ -Wno-extra-tokens -O0 -g)
-add_compile_options(${CFLAGS})
+set(CMAKE_BUILD_TYPE Debug)
+#set(CMAKE_BUILD_TYPE Release)
 
 add_executable(dark ${SRCS})
 
