@@ -16,24 +16,15 @@ Scene::Scene() {
 
 }
 
-Scene::Scene(std::vector<Model*> new_models) { // TODO: fix nice copying and stuff
-
-  for(auto& model_ptr : new_models) {
-    models.push_back(model_ptr);
-  }
-
-}
-
-void Scene::addModel(Model* model) {
-  model->setupGPU();
-  models.push_back(model);
-
+void Scene::addModel(Model model) {
+  model.setupGPU();
+  models.push_back(std::move(model));
 }
 
 std::string Scene::toString() const {
   std::string buffer = "Scene: {\nModels: {\n";
-  for(const auto model : models) {
-    buffer += model->toString();
+  for(const auto& model : models) {
+    buffer += model.toString();
   }
   buffer += "} }";
   return buffer;

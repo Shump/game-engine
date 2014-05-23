@@ -14,9 +14,9 @@
 
 class Scene {
 public:
-  class MeshIterator : public std::iterator<std::input_iterator_tag, Model*>{
+  class MeshIterator : public std::iterator<std::input_iterator_tag, Model>{
   public:
-    MeshIterator(std::vector<Model*>::iterator iter) {
+    MeshIterator(std::vector<Model>::iterator iter) {
       iterator = iter;
     }
 
@@ -44,26 +44,25 @@ public:
       return *this;
     }
     
-    Model*& operator*() const {
+    Model& operator*() const {
       return *iterator;
     }
 
-    Model** operator->() const {
+    Model* operator->() const {
       return &*iterator;
     }
   private:
-    std::vector<Model*>::iterator iterator;
+    std::vector<Model>::iterator iterator;
   };
 
   Scene();
-  Scene(std::vector<Model*> models);
 
-  void addModel(Model* model);
+  void addModel(Model model);
 
   std::string toString() const;
 
   void setCamera(Camera cam) {
-    camera = cam;
+    camera = Camera(std::move(cam));
   }
 
   Camera& getCamera() {
@@ -82,7 +81,7 @@ public:
     return MeshIterator(models.end());
   }
 
-  std::vector<Model*> models;
+  std::vector<Model> models;
 private:
   Camera camera;
 

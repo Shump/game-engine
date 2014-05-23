@@ -10,8 +10,8 @@
 class AssImporter {
 public:
   AssImporter(const std::string& path);
-  Scene* getScene();
-  Model* getModel();
+  Scene getScene();
+  Model getModel();
 
 private:
   Assimp::Importer importer;
@@ -19,7 +19,7 @@ private:
   aiMesh* ai_mesh;
 
   Camera buildCamera();
-  Model* buildModel();
+  Model buildModel();
   Texture extractTexture();
   Face buildFace(int face_index);
 

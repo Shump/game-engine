@@ -31,22 +31,20 @@ int main() {
   shader_program->setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
 
   Dark::Importer importer;  
-  Scene* scene = importer.loadScene<AssImporter>("data/main.dae");
+  Scene scene = importer.loadScene<AssImporter>("data/main.dae");
 
   Camera cam(glm::vec3(0.0f, -5.0f, 0.0f),
              glm::vec3(0.0f, 1.0f, 0.0f),
              glm::vec3(0.0f, 0.0f, 1.0f));
-  //scene->setCamera(cam);
 
   double time = glfwGetTime();
 
   double old_mouse_x, old_mouse_y;
   glfwGetCursorPos(ge.window, &old_mouse_x, &old_mouse_y);
 
-  for(auto m : *scene) {
-    std::cout << m->toString() << std::endl;
+  for(const auto& m : scene) {
+    std::cout << m.toString() << std::endl;
   }
-
 
   while(!ge.shouldClose()) {
 
@@ -59,7 +57,7 @@ int main() {
     float delta_time = new_time - time;
     const float MOVE_SPEED = 2.5f * TURBO;
 
-    Camera& camref = scene->getCamera();
+    Camera& camref = scene.getCamera();
     glm::vec3 move_dir(0.0f, 0.0f, 0.0f);
     bool moved = false;
     if (glfwGetKey(ge.window, GLFW_KEY_W) == GLFW_PRESS){
@@ -97,7 +95,7 @@ int main() {
     camref.rotateYaw(delta_x * ROT_SPEED);
 
 
-    ge.drawScene(*scene);
+    ge.drawScene(scene);
     ge.render();
 
     ge.pollEvents();

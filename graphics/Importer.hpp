@@ -13,13 +13,13 @@ class Importer {
 public:
 
   template<typename ImportMethod>
-  Scene* loadScene(const std::string& path) {
+  Scene loadScene(const std::string& path) {
     ImportMethod import_method(path);
     return import_method.getScene();
   };
 
   template<typename ImportMethod>
-  Model* loadModel(const std::string& path) {
+  Model loadModel(const std::string& path) {
     ImportMethod import_method;
     return import_method.loadModel(path);
   };

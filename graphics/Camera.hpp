@@ -11,6 +11,10 @@ public:
 
   Camera();
   Camera(const glm::vec3& pos, const glm::vec3& dir, const glm::vec3& up);
+  Camera(const Camera& camera) = default;
+  Camera(Camera&& camera) = default;
+  Camera& operator=(const Camera& camera) = default;
+  Camera& operator=(Camera&& camera) = default;
 
   void move(const glm::vec3& move_dir) {
     pos = pos + move_dir;
