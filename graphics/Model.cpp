@@ -17,10 +17,6 @@ Model::Model(vector<Face> faces,
 }
 
 Model::~Model() {
-  if(buffers_generated) {
-    glDeleteBuffers(1, &vertices_vbo);
-    glDeleteVertexArrays(1, &vertex_array_object);
-  }
 }
 
 void Model::setupGPU() {

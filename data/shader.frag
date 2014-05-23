@@ -21,5 +21,4 @@ void main() {
 
   vec4 diffuse_light = vec4(sun_color, 0.0) * sun_intensity * diffuse_sun_factor;
   outColor = texture(sampler, TextureCords) * (ambient_light + diffuse_light);
-  outColor = vec4(1.0, 1.0, 1.0, 1.0);
 }
