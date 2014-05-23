@@ -12,14 +12,11 @@ public:
   template<typename T>
   class VertexData {
   public:
-    VertexData(T data0, T data1, T data2) :
+    VertexData(const T& data0, const T& data1, const T& data2) :
       data0(data0), data1(data1), data2(data2) {};
 
-    VertexData(const VertexData& other) : data0(other.data0), data1(other.data1), data2(other.data2) {};
-    VertexData(VertexData&& other) : 
-      data0(std::move(other.data0)),
-      data1(std::move(other.data1)),
-      data2(std::move(other.data2)) {};
+    VertexData(const VertexData& other) = default;
+    VertexData(VertexData&& other) = default;
 
     const T& operator[](int index) const {
       switch (index) {
@@ -40,26 +37,15 @@ public:
     const T data0, data1, data2;
   };
 
-  Face(glm::vec3 location0, glm::vec3 location1, glm::vec3 location2,
-       glm::vec3 normal0, glm::vec3 normal1, glm::vec3 normal2,
-       glm::vec2 uv0    , glm::vec2 uv1    , glm::vec2 uv2    ) 
+  Face(const glm::vec3& location0, const glm::vec3& location1, const glm::vec3& location2,
+       const glm::vec3& normal0, const glm::vec3& normal1, const glm::vec3& normal2,
+       const glm::vec2& uv0    , const glm::vec2& uv1    , const glm::vec2& uv2    ) 
       : normals(normal0, normal1, normal2),
         uvs(uv0, uv1, uv2),
-        coords(location0, location1, location2) {
-    std::cout << "Face ctor" << std::endl;
-  };
+        coords(location0, location1, location2) {};
 
-  Face(const Face& other)
-    : normals(other.normals), uvs(other.uvs), coords(other.coords) {
-      std::cout << "Face copy ctor" << std::endl;
-  };
-
-  Face(Face&& other)
-    : normals(std::move(other.normals)), 
-      uvs(std::move(other.uvs)), 
-      coords(std::move(other.coords)) {
-    std::cout << "Face move ctor" << std::endl;
-  };
+  Face(const Face& other) = default;
+  Face(Face&& other) = default;
 
   std::string toString() const {
     return coords.toString();

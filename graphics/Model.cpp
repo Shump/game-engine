@@ -6,11 +6,11 @@
 
 using namespace std;
 
-Model::Model(vector<Face> _faces, 
-             vector<float> _vertices, 
-             vector<float> _colors, 
+Model::Model(vector<Face> faces, 
+             vector<float> vertices, 
+             vector<float> colors, 
              shared_ptr<ShaderProgram> shader_program) : 
-               faces(_faces), vertices(_vertices), colors(_colors) {
+               faces(faces), vertices(vertices), colors(colors) {
   // TODO: Explore move semantics
   Model::shader_program = shader_program;
   setupGPU();
@@ -21,10 +21,6 @@ Model::~Model() {
     glDeleteBuffers(1, &vertices_vbo);
     glDeleteVertexArrays(1, &vertex_array_object);
   }
-  //for(Face* face : faces) {
-    //delete face;
-  //}
-  //faces.clear();
 }
 
 void Model::setupGPU() {
@@ -175,7 +171,6 @@ void Model::addFace(Face&& face) {
 void Model::addTexture(Texture texture) {
   Model::texture = texture;
 }
-
 
 std::string Model::toString() const {
   std::string buffer = "Faces: {\n";

@@ -1,13 +1,23 @@
+
+================= TODO ==================
+
 implement basic shading etc:
   - draw cool background
   - point light
 
 improve scene loader
-  - fix proper scene graph <-
+  - rewrite from pointers and use movesemantics
+    - std::vector always saves on the heap, thus there is no point in manual allocation.
+    - pass by value, sink argument
+    - continue with Model <-
+
+  - fix proper scene graph
     - add mesh classes
     - add nodes
     - or, investigate library
+
   - fix transformation matrix application.
+
   - point lights
 
 fix gamma corrected rendering!
@@ -27,3 +37,22 @@ breakpoint plugin:
 
 Matrix transformations:
   - Root contains matrix to fransform coordinates so that y is up and -z is down.
+
+=========== REFERENCES ==============
+
+Move semantics:
+  - https://groups.google.com/a/isocpp.org/forum/#!topic/std-proposals/flqtAYA-yMI
+
+STL stuff:
+  - http://stackoverflow.com/questions/7758580/writing-your-own-stl-container/7759622#7759622
+  - http://stackoverflow.com/questions/8054273/how-to-implement-an-stl-style-iterator-and-avoid-common-pitfalls
+
+Camera stuff:
+  - http://stackoverflow.com/questions/6030933/get-eye-target-and-up-vectors-from-view-matrix
+  - http://urfoex.blogspot.jp/2011/12/camera-in-3d-space.html
+  - http://www.scratchapixel.com/lessons/3d-basic-lessons/lesson-4-geometry/conventions-again-row-major-vs-column-major-vector/
+
+Template stuff:
+  - http://www.parashift.com/c++-faq/separate-template-fn-defn-from-decl.html
+  - https://groups.google.com/forum/#!topic/comp.lang.c++.moderated/KwBkmpNZl_U
+  - https://groups.google.com/forum/#!forum/comp.lang.c++.moderated
