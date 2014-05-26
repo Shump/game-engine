@@ -12,6 +12,8 @@ set(SRCS
     AssImporter.cpp 
     Camera.cpp
     Texture.cpp
+    Renderer.cpp
+    Renderer-impl.cpp
     main.cpp)
 
 set(COMMON_CFLAGS "-Wall -std=c++1y -stdlib=libc++ -Wno-extra-tokens -O0 -g")

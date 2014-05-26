@@ -1,10 +1,13 @@
 #include "GraphicsEngine.hpp"
 #include "opengl.hpp"
-#include <string>
 
+#include <string>
 #include <iostream>
 
 #include <glm/gtc/matrix_transform.hpp>
+
+#include "Renderer.hpp"
+#include "DeferredRenderer.hpp"
 
 GraphicsEngine::~GraphicsEngine() {
   glfwTerminate();
@@ -70,7 +73,7 @@ void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
 
 }
 
-void GraphicsEngine::drawScene(const Scene& scene) {
+void GraphicsEngine::render(const Scene& scene) {
   glClearColor(0.7f, 0.7f, 1.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -79,9 +82,12 @@ void GraphicsEngine::drawScene(const Scene& scene) {
   for(const auto& model : scene.models) {
     drawModel(view_mat, model);
   }
+
+  Renderer<DeferredRenderer> r((DeferredRenderer()));
+  r.render(scene);
 }
 
-void GraphicsEngine::render() {
+void GraphicsEngine::swapBuffers() {
   glfwSwapBuffers(window);
 
 }

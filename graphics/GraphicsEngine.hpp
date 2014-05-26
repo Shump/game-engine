@@ -23,8 +23,8 @@ public:
   void init();
   void start(unsigned int width, unsigned int height, std::string title);
   void drawModel(const glm::mat4& view_mat, const Model& model);
-  void drawScene(const Scene& scene);
-  void render();
+  void render(const Scene& scene);
+  void swapBuffers();
   void stop();
   bool shouldClose() {
     return glfwWindowShouldClose(window);
@@ -35,6 +35,10 @@ public:
   
   const glm::mat4& getProjMatrix() const {
     return proj_matrix;
+  }
+
+  std::string getGLVersion() const {
+    return std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
   }
 
   GLFWwindow* window;

@@ -1,6 +1,11 @@
 
 ================= TODO ==================
 
+change rendering to abstract
+  - add renderer class with templates
+  - add forward rendering
+  - add deffered rendering
+
 implement basic shading etc:
   - draw cool background
   - point light
@@ -8,8 +13,8 @@ implement basic shading etc:
 improve scene loader
   - rewrite from pointers and use movesemantics
     - std::vector always saves on the heap, thus there is no point in manual allocation.
-    - pass by value, sink argument
-    - continue with Model <-
+    - make sure move semantics kicks in
+    - consider pass by value, sink argument
 
   - fix proper scene graph
     - add mesh classes

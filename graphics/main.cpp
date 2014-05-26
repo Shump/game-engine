@@ -20,8 +20,6 @@ int main() {
   ge.init();
   ge.start(800, 600, "test");
 
-  std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
-  
   Shader vertex_shader("data/shader.vert");
   Shader fragment_shader("data/shader.frag");
   
@@ -41,10 +39,6 @@ int main() {
 
   double old_mouse_x, old_mouse_y;
   glfwGetCursorPos(ge.window, &old_mouse_x, &old_mouse_y);
-
-  for(const auto& m : scene) {
-    std::cout << m.toString() << std::endl;
-  }
 
   while(!ge.shouldClose()) {
 
@@ -95,8 +89,8 @@ int main() {
     camref.rotateYaw(delta_x * ROT_SPEED);
 
 
-    ge.drawScene(scene);
-    ge.render();
+    ge.render(scene);
+    ge.swapBuffers();
 
     ge.pollEvents();
 
