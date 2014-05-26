@@ -8,6 +8,7 @@
 
 #include "Renderer.hpp"
 #include "DeferredRenderer.hpp"
+#include "ForwardRenderer.hpp"
 
 GraphicsEngine::~GraphicsEngine() {
   glfwTerminate();
@@ -83,8 +84,11 @@ void GraphicsEngine::render(const Scene& scene) {
     drawModel(view_mat, model);
   }
 
-  Renderer<DeferredRenderer> r((DeferredRenderer()));
-  r.render(scene);
+  Renderer<DeferredRenderer> dr((DeferredRenderer()));
+  dr.render(scene);
+
+  Renderer<ForwardRenderer> fr((ForwardRenderer()));
+  fr.render(scene);
 }
 
 void GraphicsEngine::swapBuffers() {

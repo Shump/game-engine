@@ -6,9 +6,7 @@
 class DeferredRenderer {
 public:
   template<typename Renderable>
-  void render(const Renderable& renderable) {
-    std::cout << "apa" << std::endl;
-  }
+  void render(const Renderable& renderable);
 
 };
   
