@@ -12,13 +12,14 @@
 class ForwardRenderer {
 public:
 
+  ForwardRenderer() {};
   ForwardRenderer(const ShaderProgram& program);
   ForwardRenderer(ShaderProgram&& program);
-  
+
   void render(const Scene& scene);
 
 private:
-  void render(const Model& model);
+  void render(const Model& model, const Camera& camera);
 
   ShaderProgram program;
 

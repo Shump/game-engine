@@ -2,6 +2,7 @@
 #include "Camera.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 Camera::Camera(const Orientation& orientation, const Lens& lens) :
     projection_matrix(glm::perspective(lens.fov, lens.ratio, lens.near_plane, lens.far_plane)) {

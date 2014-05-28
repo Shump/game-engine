@@ -7,6 +7,8 @@
 #include "Texture.hpp"
 #include "opengl.hpp"
 
+#include "ForwardRenderer.hpp"
+
 #include <string>
 #include <memory>
 
@@ -18,7 +20,6 @@ public:
   GraphicsEngine(unsigned int width, unsigned int height, std::string title);
   ~GraphicsEngine();
 
-  void drawModel(const glm::mat4& view_mat, const Model& model);
   void render(const Scene& scene);
   void swapBuffers();
   void stop();
@@ -29,10 +30,6 @@ public:
   void pollEvents() {
     glfwPollEvents();
   }
-  
-  const glm::mat4& getProjMatrix() const {
-    return proj_matrix;
-  }
 
   std::string getGLVersion() const {
     return std::string(reinterpret_cast<const char*>(glGetString(GL_VERSION)));
@@ -40,12 +37,10 @@ public:
 
   GLFWwindow* window;
 private:
-  Texture texture;
+  void loadForwardRenderer();
 
-  ShaderProgram program;
+  ForwardRenderer forward_renderer;
 
-  glm::mat4 proj_matrix;
-  
 };
 
 

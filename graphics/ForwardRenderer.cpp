@@ -16,15 +16,17 @@ ForwardRenderer::ForwardRenderer(ShaderProgram&& program) : program(std::move(pr
 
 void ForwardRenderer::render(const Scene& scene) {
 
-  //view_mat = scene.getConstCamera().getViewMatrix();
+  glUseProgram(program.getGLShaderProgram());
+
+  const Camera& camera = scene.getConstCamera();
 
   for(const auto& model : scene.models) {
-    render(model);
+    render(model, camera);
   }
 
 }
 
-void ForwardRenderer::render(const Model& model) {
+void ForwardRenderer::render(const Model& model, const Camera& camera) {
 
   glBindVertexArray(model.getVertexArrayObject());
   glBindBuffer(GL_ARRAY_BUFFER, model.getVerticesVBO());
@@ -33,8 +35,8 @@ void ForwardRenderer::render(const Model& model) {
   glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureId());
 
   program.setUniform("model_mat", model.getModelMatrix());
-  //program.setUniform("view_mat", view_mat);
-  //program.setUniform("proj_mat", proj_matrix);
+  program.setUniform("view_mat", camera.getViewMatrix());
+  program.setUniform("proj_mat", camera.getProjectionMatrix());
   program.setUniform("triangleColor", glm::vec3(0.0, 1.0, 0.0));
 
   program.setUniform("ambient_color", glm::vec3(7.0f, 7.0, 1.0));
