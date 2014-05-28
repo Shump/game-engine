@@ -21,10 +21,6 @@ int main() {
   Dark::Importer importer;  
   Scene scene = importer.loadScene<AssImporter>("data/main.dae");
 
-  Camera cam(glm::vec3(0.0f, -5.0f, 0.0f),
-             glm::vec3(0.0f, 1.0f, 0.0f),
-             glm::vec3(0.0f, 0.0f, 1.0f));
-
   double time = glfwGetTime();
 
   double old_mouse_x, old_mouse_y;

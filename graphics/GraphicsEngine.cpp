@@ -85,10 +85,8 @@ void GraphicsEngine::render(const Scene& scene) {
   }
 
   Renderer<DeferredRenderer> dr((DeferredRenderer()));
-  dr.render(scene);
 
   Renderer<ForwardRenderer> fr((ForwardRenderer(program)));
-  fr.render(scene);
 }
 
 void GraphicsEngine::swapBuffers() {

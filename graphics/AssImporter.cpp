@@ -74,7 +74,8 @@ Camera AssImporter::buildCamera() {
     glm::vec3 forward(camera_mat[2].x, camera_mat[2].y, camera_mat[2].z);
     
     // todo: forward == up
-    return Camera(pos, forward, glm::vec3(0.f, 0.f, 1.f));
+    return Camera(Camera::Orientation(pos, forward, glm::vec3(0.f, 0.f, 1.f)),
+                  Camera::Lens(45.f, 4.f/3.f, 0.1f, 100.f));
     
   } else {
     std::string file = __FILE__;
