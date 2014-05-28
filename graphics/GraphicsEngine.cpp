@@ -10,17 +10,7 @@
 #include "DeferredRenderer.hpp"
 #include "ForwardRenderer.hpp"
 
-GraphicsEngine::~GraphicsEngine() {
-  glfwTerminate();
-}
-
-void GraphicsEngine::setShaderProgram(ShaderProgram program) {
-  GraphicsEngine::program = program;
-
-  glUseProgram(program.getGLShaderProgram());
-}
-
-void GraphicsEngine::init() {
+GraphicsEngine::GraphicsEngine(unsigned int width, unsigned int height, std::string title) {
   if(!glfwInit()) {
     //TODO: Through error exception!
     return;
@@ -30,10 +20,6 @@ void GraphicsEngine::init() {
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-}
-
-void GraphicsEngine::start(unsigned int width, unsigned int height, std::string title) {
 
   window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
   if(!window) {
@@ -50,6 +36,20 @@ void GraphicsEngine::start(unsigned int width, unsigned int height, std::string 
   glEnable(GL_DEPTH_TEST);
 
   texture.load("data/duck.jpg");
+
+  Shader vertex_shader("data/shader.vert");
+  Shader fragment_shader("data/shader.frag");
+  
+  ShaderProgram shader_program{vertex_shader, fragment_shader};
+
+  program = shader_program;
+  glUseProgram(shader_program.getGLShaderProgram());
+
+  shader_program.setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
+}
+
+GraphicsEngine::~GraphicsEngine() {
+  glfwTerminate();
 }
 
 void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {

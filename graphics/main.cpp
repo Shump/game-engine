@@ -16,17 +16,7 @@
 
 int main() {
 
-  GraphicsEngine ge;
-  ge.init();
-  ge.start(800, 600, "test");
-
-  Shader vertex_shader("data/shader.vert");
-  Shader fragment_shader("data/shader.frag");
-  
-  ShaderProgram shader_program{vertex_shader, fragment_shader};
-  ge.setShaderProgram(shader_program);
-  glUseProgram(shader_program.getGLShaderProgram());
-  shader_program.setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
+  GraphicsEngine ge(800, 600, "test");
 
   Dark::Importer importer;  
   Scene scene = importer.loadScene<AssImporter>("data/main.dae");

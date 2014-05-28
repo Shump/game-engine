@@ -15,17 +15,14 @@
 class GraphicsEngine {
 public:
 
+  GraphicsEngine(unsigned int width, unsigned int height, std::string title);
   ~GraphicsEngine();
 
-  void setShaderProgram(ShaderProgram program);
-
-
-  void init();
-  void start(unsigned int width, unsigned int height, std::string title);
   void drawModel(const glm::mat4& view_mat, const Model& model);
   void render(const Scene& scene);
   void swapBuffers();
   void stop();
+
   bool shouldClose() {
     return glfwWindowShouldClose(window);
   }
