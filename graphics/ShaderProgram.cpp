@@ -4,6 +4,10 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+ShaderProgram::ShaderProgram() : is_loaded(false) {
+
+}
+
 ShaderProgram::ShaderProgram(std::initializer_list<Shader> list) : shaders(list) {
   
   shader_program = glCreateProgram();
@@ -20,6 +24,14 @@ ShaderProgram::ShaderProgram(std::initializer_list<Shader> list) : shaders(list)
 
   glLinkProgram(shader_program);
 
+  is_loaded = true;
+}
+
+GLuint ShaderProgram::getGLShaderProgram() {
+  if (!is_loaded) {
+    throw std::runtime_error("ShaderProgram::getGLShaderProgram: The shaderprogram has not been initialized.");
+  }
+  return shader_program;
 }
 
 void ShaderProgram::setUniform(const std::string& name, float value) {

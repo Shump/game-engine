@@ -5,6 +5,8 @@ change rendering to abstract
   - add renderer class with templates
   - add forward rendering
   - add deffered rendering
+  - add filters to scene in order to only <-
+    take at certain types of objects
 
 implement basic shading etc:
   - draw cool background

@@ -14,10 +14,10 @@ GraphicsEngine::~GraphicsEngine() {
   glfwTerminate();
 }
 
-void GraphicsEngine::setShaderProgram(std::shared_ptr<ShaderProgram> program) {
+void GraphicsEngine::setShaderProgram(ShaderProgram program) {
   GraphicsEngine::program = program;
 
-  glUseProgram(program->shader_program);
+  glUseProgram(program.getGLShaderProgram());
 }
 
 void GraphicsEngine::init() {
@@ -60,16 +60,16 @@ void GraphicsEngine::drawModel(const glm::mat4& view_mat, const Model& model) {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, model.getTexture().getTextureId());
 
-    program->setUniform("model_mat", model.getModelMatrix());
-    program->setUniform("view_mat", view_mat);
-    program->setUniform("proj_mat", proj_matrix);
-    program->setUniform("triangleColor", glm::vec3(0.0, 1.0, 0.0));
+    program.setUniform("model_mat", model.getModelMatrix());
+    program.setUniform("view_mat", view_mat);
+    program.setUniform("proj_mat", proj_matrix);
+    program.setUniform("triangleColor", glm::vec3(0.0, 1.0, 0.0));
 
-    program->setUniform("ambient_color", glm::vec3(7.0f, 7.0, 1.0));
-    program->setUniform("ambient_intensity", 0.1f);
-    program->setUniform("sun_dir", glm::vec3(1.0f, 1.0f, 1.0f));
-    program->setUniform("sun_color", glm::vec3(1.0f, 1.0f, 1.0f));
-    program->setUniform("sun_intensity", 1.0);
+    program.setUniform("ambient_color", glm::vec3(7.0f, 7.0, 1.0));
+    program.setUniform("ambient_intensity", 0.1f);
+    program.setUniform("sun_dir", glm::vec3(1.0f, 1.0f, 1.0f));
+    program.setUniform("sun_color", glm::vec3(1.0f, 1.0f, 1.0f));
+    program.setUniform("sun_intensity", 1.0);
     glDrawArrays(GL_TRIANGLES, 0, model.getNumberVertices());
 
 }
@@ -87,7 +87,7 @@ void GraphicsEngine::render(const Scene& scene) {
   Renderer<DeferredRenderer> dr((DeferredRenderer()));
   dr.render(scene);
 
-  Renderer<ForwardRenderer> fr((ForwardRenderer()));
+  Renderer<ForwardRenderer> fr((ForwardRenderer(program)));
   fr.render(scene);
 }
 

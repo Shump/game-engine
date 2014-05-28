@@ -23,10 +23,10 @@ int main() {
   Shader vertex_shader("data/shader.vert");
   Shader fragment_shader("data/shader.frag");
   
-  std::shared_ptr<ShaderProgram> shader_program(new ShaderProgram{vertex_shader, fragment_shader});
+  ShaderProgram shader_program{vertex_shader, fragment_shader};
   ge.setShaderProgram(shader_program);
-  glUseProgram(shader_program->shader_program);
-  shader_program->setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
+  glUseProgram(shader_program.getGLShaderProgram());
+  shader_program.setUniform("triangleColor", glm::vec3(1.0, 0.0, 0.0));
 
   Dark::Importer importer;  
   Scene scene = importer.loadScene<AssImporter>("data/main.dae");

@@ -9,77 +9,55 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <functional>
 
 #include <assimp/scene.h>
 
 class Scene {
 public:
+
+  typedef std::function<bool(const Model&)> Predicate;
+
   class MeshIterator : public std::iterator<std::input_iterator_tag, Model>{
   public:
-    MeshIterator(std::vector<Model>::iterator iter) {
-      iterator = iter;
-    }
 
-    MeshIterator(const MeshIterator& other) {
-      iterator = other.iterator;
-    }
+    MeshIterator();
+    MeshIterator(Predicate predicate);
 
-    ~MeshIterator() {}
+    MeshIterator(std::vector<Model>::iterator iter);
+    MeshIterator(const MeshIterator& other);
+    ~MeshIterator();
+    MeshIterator& operator=(const MeshIterator& other);
 
-    MeshIterator& operator=(const MeshIterator& other) {
-      iterator = other.iterator;
-      return *this;
-    }
-
-    bool operator==(const MeshIterator& other) const {
-      return iterator == other.iterator;
-    }
-
-    bool operator!=(const MeshIterator& other) const {
-      return iterator != other.iterator;
-    }
-
-    MeshIterator& operator++() {
-      iterator++;
-      return *this;
-    }
+    bool operator==(const MeshIterator& other) const;
+    bool operator!=(const MeshIterator& other) const;
     
-    Model& operator*() const {
-      return *iterator;
-    }
+    MeshIterator& operator++();
 
-    Model* operator->() const {
-      return &*iterator;
-    }
+    Model& operator*() const;
+    Model* operator->() const;
   private:
+    const std::function<bool(const Model&)> predicate;
     std::vector<Model>::iterator iterator;
   };
 
-  Scene();
+  class Range {
+  public:
+    Range();
+    Range(std::function<bool(const Model&)> predicate);
+  };
 
+  Scene();
   void addModel(Model model);
 
+  void setCamera(Camera cam);
+  Camera& getCamera();
+  const Camera& getConstCamera() const;
+
+  MeshIterator begin();
+  MeshIterator end();
+
   std::string toString() const;
-
-  void setCamera(Camera cam) {
-    camera = Camera(std::move(cam));
-  }
-
-  Camera& getCamera() {
-    return camera;
-  }
-
-  const Camera& getConstCamera() const {
-    return camera;
-  }
-
-  MeshIterator begin() {
-    return MeshIterator(models.begin());
-  }
-
-  MeshIterator end() {
-    return MeshIterator(models.end());
-  }
 
   std::vector<Model> models;
 private:

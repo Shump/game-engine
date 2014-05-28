@@ -11,19 +11,22 @@
 
 class ShaderProgram {
 public:
-  GLuint shader_program;
 
   GLuint position_index = 0;
 
+  ShaderProgram();
   ShaderProgram(std::initializer_list<Shader> list);
+
+  GLuint getGLShaderProgram();
 
   void setUniform(const std::string& name, float value);
   void setUniform(const std::string& name, const glm::vec3& value);
   void setUniform(const std::string& name, const glm::mat4& value);
 
 private:
+  bool is_loaded = false;
   std::vector<Shader> shaders;
-
+  GLuint shader_program;
 };
 
 

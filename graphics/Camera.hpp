@@ -29,7 +29,7 @@ public:
     dir = glm::rotateZ(dir, -angle);
   }
 
-  const glm::mat4 getViewMatrix() const {
+  glm::mat4 getViewMatrix() const {
     return glm::lookAt(pos, pos + dir, up);
   }
 

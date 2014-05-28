@@ -17,7 +17,7 @@ public:
 
   ~GraphicsEngine();
 
-  void setShaderProgram(std::shared_ptr<ShaderProgram> program);
+  void setShaderProgram(ShaderProgram program);
 
 
   void init();
@@ -45,7 +45,7 @@ public:
 private:
   Texture texture;
 
-  std::shared_ptr<ShaderProgram> program;
+  ShaderProgram program;
 
   glm::mat4 proj_matrix;
   
